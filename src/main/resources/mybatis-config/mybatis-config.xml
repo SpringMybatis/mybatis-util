@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="jdbc.properties"></properties>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+	</settings>
+
+	<!-- 实体类别名设置 -->
+	<typeAliases>
+		<typeAlias type="com.ibs.mybatis.User" alias="User" />
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<!-- JDBC – 这个配置直接简单使用了 JDBC 的提交和回滚设置。 它依赖于从数据源得 到的连接来管理事务范围。 -->
+			<transactionManager type="JDBC" />
+			<!--
+				MANAGED – 这个配置几乎没做什么。它从来不提交或回滚一个连接。 而它会让 容器来管理事务的整个生命周期(比如 Spring 或
+				JEE 应用服务器的上下文) 默认 情况下它会关闭连接。 然而一些容器并不希望这样, 因此如果你需要从连接中停止 它,将
+				closeConnection 属性设置为 false。 <transactionManager type="MANAGED">
+				<property name="closeConnection" value="false" />
+				</transactionManager>
+			-->
+			<!--
+				UNPOOLED – 这个数据源的实现是每次被请求时简单打开和关闭连接。 POOLED – 这是 JDBC
+				连接对象的数据源连接池的实现,用来避免创建新的连接实例 时必要的初始连接和认证时间。这是一种当前 Web
+				应用程序用来快速响应请求很流行的方 法。 JNDI – 这个数据源的实现是为了使用如 Spring 或应用服务器这类的容器, 容器可以集
+				中或在外部配置数据源,然后放置一个 JNDI 上下文的引用。
+			-->
+			<dataSource type="POOLED">
+				<property name="driver" value="${app.driver.classname}" />
+				<property name="url" value="${app.database.url}" />
+				<property name="username" value="${app.database.username}" />
+				<property name="password" value="${app.database.password}" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<!-- mapping 文件路径配置 -->
+	<mappers>
+		<mapper resource="mapper/UserMapper.xml" />
+	</mappers>
+
+</configuration>
